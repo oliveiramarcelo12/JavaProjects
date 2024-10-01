@@ -1,5 +1,6 @@
 package com.example;
 
+import java.io.BufferedReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -15,6 +16,10 @@ public class LeituraAPI {
             throw new  Exception("Erro de Conexão");
             
         }
+        //conexao estabelecida
+        BufferedReader br = new BufferedReader(
+            new InputStreamReader(con.getInputStream())
+        );
        } catch (Exception e) {
        
        }
