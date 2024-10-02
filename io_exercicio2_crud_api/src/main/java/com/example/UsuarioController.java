@@ -103,4 +103,69 @@ public class UsuarioController {
     }
 }
 
+// método PUT
+ public void updateUser(Usuario usuario){
+    try {
+        url = new URL("http://localhost:3000/usuarios/"+usuario.getId());
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("PUT");
+        con.setRequestProperty("Content-Type", "application/json; utf-8");
+        con.setRequestProperty("Accept", "application/json");
+        con.setDoOutput(true); // Para indicar que vamos enviar dados no corpo da requisição
+        //criar o JSONObject
+        JSONObject usuarioJson = new JSONObject();
+        usuarioJson.put("id", usuario.getId());
+        usuarioJson.put("nome", usuario.getNome());
+        usuarioJson.put("idade", usuario.getIdade());
+        usuarioJson.put("endereco", usuario.getEndereco());
+
+        try (BufferedWriter bw = new BufferedWriter(
+            new OutputStreamWriter(con.getOutputStream(), "UTF-8"))){
+                bw.write(usuarioJson.toString());
+                bw.flush();
+                
+    
+            }
+            
+            int status = con.getResponseCode();
+            if (status != HttpURLConnection.HTTP_CREATED) {
+                throw new Exception("Erro de Conexão" );
+                
+            }
+            read();
+            System.out.println("Usuario Cadastrado com sucesso");
+        
+     
+    } catch (Exception e) {
+       e.printStackTrace();
+    }
+
+ }
+ public void deleteUser(String id) {
+    HttpURLConnection con = null;
+    try {
+        // Criando a URL com o ID do usuário
+        URL url = new URL("http://localhost:3000/usuarios/" + id);
+        
+        // Abrindo conexão HTTP
+        con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("DELETE");
+        con.setRequestProperty("Accept", "application/json");
+
+        // Verificando a resposta da requisição
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            System.out.println("Usuário com ID " + id + " deletado com sucesso.");
+        } else {
+            System.out.println("Falha ao deletar o usuário. Código de resposta: " + responseCode);
+        }
+        
+    } catch (Exception e) {
+        System.out.println("Erro ao tentar deletar o usuário: " + e.getMessage());
+    } finally {
+        if (con != null) {
+            con.disconnect();
+        }
+    }
+}
 }
