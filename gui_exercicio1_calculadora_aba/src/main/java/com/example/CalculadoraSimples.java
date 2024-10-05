@@ -43,7 +43,7 @@ public class CalculadoraSimples extends JPanel {
     public String getDisplaySimples() {
         return displaySimples.getText();
     }
-    public class SimpleActionListener implements ActionListener{
+    public class Handler1 implements ActionListener{
         
     }
 }
