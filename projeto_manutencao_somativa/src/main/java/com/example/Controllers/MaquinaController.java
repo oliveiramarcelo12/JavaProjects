@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.Models.Maquina;
+import com.example.api.MaquinaAPI;
 
 public class MaquinaController {
     private List<Maquina> maquinas;
@@ -19,19 +20,11 @@ public class MaquinaController {
 
     // Read - Listar todas as máquinas
     public List<Maquina> ReadMaquinas() {
-        return maquinas;
+       maquinas = MaquinaAPI.getMaquinas();
+       return maquinas;
     }
 
-    // Read - Buscar uma máquina por ID (assumindo que a classe Maquina tem um campo 'id')
-    public Maquina getMaquinaById(String id) {
-        for (Maquina maquina : maquinas) {
-            if (maquina.getId() == id) {
-                return maquina;
-            }
-        }
-        return null; // Retorna null se a máquina com o ID não for encontrada
-    }
-
+ 
     // Update - Atualizar uma máquina existente
     public boolean updateMaquina(String id, Maquina novaMaquina) {
         for (int i = 0; i < maquinas.size(); i++) {

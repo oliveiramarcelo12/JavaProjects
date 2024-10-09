@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Manuntecao {
+public class Manutencao {
      private String id;
     private long maquinaID;
     private LocalDate data;
