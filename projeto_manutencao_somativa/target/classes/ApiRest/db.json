@@ -2,18 +2,17 @@
   "maquinas": [
     {
       "0": {
-        "0": {
-          "id": "1",
-          "codigo": "M001",
-          "nome": "Torno CNC",
-          "modelo": "CNC 3000",
-          "fabricante": "Siemens",
-          "dataAquisicao": "2020-01-10",
-          "tempoVidaEstimado": 10,
-          "localizacao": "Linha 1",
-          "detalhes": "Operação em alta precisão",
-          "manual": "URL do manual"
-        }
+        "id": "1",
+        "codigo": "M001",
+        "nome": "Torno CNC",
+        "modelo": "CNC 3000",
+        "fabricante": "Siemens",
+        "dataAquisicao": "2020-01-10",
+        "tempoVidaEstimado": 10,
+        "localizacao": "Linha 1",
+        "detalhes": "Operação em alta precisão",
+        "manual": "URL do manual"
+      
       },
       "id": "a882"
     }

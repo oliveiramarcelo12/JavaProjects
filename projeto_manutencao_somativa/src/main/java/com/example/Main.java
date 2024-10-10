@@ -1,7 +1,15 @@
 package com.example;
 
+import javax.swing.SwingUtilities;
+
+import com.example.view.SistemaManutecaoGUI;
+
+
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+       SwingUtilities.invokeLater(() -> {
+        new SistemaManutecaoGUI().setVisible(true);
+       });
     }
 }
