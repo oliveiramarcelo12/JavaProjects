@@ -1,0 +1,69 @@
+{
+  "maquinas": [
+    {
+      "id": "1",
+      "codigo": "M001",
+      "nome": "Torno CNC",
+      "modelo": "CNC 3000",
+      "fabricante": "Siemens",
+      "dataAquisicao": "2020-01-10",
+      "tempoVidaEstimado": 10,
+      "localizacao": "Linha 1",
+      "detalhes": "Operação em alta precisão",
+      "manual": "URL do manual"
+    },
+    {
+      "id": "2",
+      "codigo": "M002",
+      "nome": "Torno CNC",
+      "modelo": "CNC 3500",
+      "fabricante": "Siemens",
+      "dataAquisicao": "2022-01-10",
+      "tempoVidaEstimado": 15,
+      "localizacao": "Linha 2",
+      "detalhes": "Operação em alta precisão",
+      "manual": "URL do manual"
+    },
+    {
+      "id": "a9ca",
+      "tempoVidaEstimado": 12,
+      "localizacao": "gggg",
+      "nome": "ggg",
+      "fabricante": "gggg",
+      "manual": "manual.pdf",
+      "modelo": "gggg",
+      "dataAquisicao": "2024-10-10",
+      "detalhes": "gggg"
+    }
+  ],
+  "historicoManutencao": [
+    {
+      "id": "1",
+      "maquinaId": 1,
+      "data": "2024-10-07",
+      "tipo": "Preventiva",
+      "pecasTrocadas": "Correia",
+      "tempoDeParada": 4,
+      "tecnicoId": "João Silva",
+      "observacoes": "Substituição preventiva da correia."
+    }
+  ],
+  "falhas": [
+    {
+      "id": "1",
+      "maquinaId": 1,
+      "data": "2024-09-28",
+      "problema": "Falha no motor",
+      "prioridade": "Alta",
+      "operador": "Carlos Lima"
+    }
+  ],
+  "tecnicos": [
+    {
+      "id": "1",
+      "nome": "João Silva",
+      "especialidade": "Mecânica",
+      "disponibilidade": "Livre"
+    }
+  ]
+}
