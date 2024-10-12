@@ -1,18 +1,6 @@
 {
   "maquinas": [
     {
-      "id": "1",
-      "codigo": "M001",
-      "nome": "Torno CNC",
-      "modelo": "CNC 3000",
-      "fabricante": "Siemens",
-      "dataAquisicao": "2020-01-10",
-      "tempoVidaEstimado": 10,
-      "localizacao": "Linha 1",
-      "detalhes": "Operação em alta precisão",
-      "manual": "URL do manual"
-    },
-    {
       "id": "2",
       "codigo": "M002",
       "nome": "Torno CNC",
@@ -25,15 +13,40 @@
       "manual": "URL do manual"
     },
     {
-      "id": "a9ca",
       "tempoVidaEstimado": 12,
-      "localizacao": "gggg",
-      "nome": "ggg",
-      "fabricante": "gggg",
+      "codigo": "C34",
+      "localizacao": "sss",
+      "nome": "cnc",
+      "fabricante": "ddd",
       "manual": "manual.pdf",
-      "modelo": "gggg",
-      "dataAquisicao": "2024-10-10",
-      "detalhes": "gggg"
+      "modelo": "dddd",
+      "dataAquisicao": "2024-10-11",
+      "detalhes": "saax",
+      "id": "f00e"
+    },
+    {
+      "tempoVidaEstimado": 12,
+      "codigo": "23",
+      "localizacao": "wwww",
+      "nome": "ddd",
+      "fabricante": "dsddd",
+      "manual": "manual.pdf",
+      "modelo": "sss",
+      "dataAquisicao": "2024-10-11",
+      "detalhes": "ddd",
+      "id": "7be3"
+    },
+    {
+      "tempoVidaEstimado": 12,
+      "codigo": "45",
+      "localizacao": "cdd",
+      "nome": "ffff",
+      "fabricante": "ffff",
+      "manual": "bbb",
+      "modelo": "sdsss",
+      "dataAquisicao": "2023-12-01",
+      "detalhes": "wswese",
+      "id": "8cf9"
     }
   ],
   "historicoManutencao": [

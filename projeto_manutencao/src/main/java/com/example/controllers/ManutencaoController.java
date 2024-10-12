@@ -3,50 +3,66 @@ package com.example.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.models.Manutencao;
 import com.example.api.ManutencaoAPI;
+import com.example.models.Manutencao;
 
 public class ManutencaoController {
-    private List<Manutencao> manutencoes;
+    private List<Manutencao> manutencao;
 
     public ManutencaoController() {
-        manutencoes = new ArrayList<>();
+        manutencao = new ArrayList<>();
     }
 
-    // Create - Adicionar uma nova manutenção
+    // Métodos CRUD
     public void createManutencao(Manutencao manutencao) {
-        
-        manutencoes.add(manutencao);
-        
+        ManutencaoAPI.postManutencao(manutencao);
+        this.manutencao.add(manutencao);
     }
 
-    // Read - Listar todas as manutenções
-    public List<Manutencao> readManutencoes() {
-        manutencoes = ManutencaoAPI.getManutencoes(); // Busca as manutenções do backend
-        return manutencoes;
+    public List<Manutencao> readManutencao() {
+        manutencao = ManutencaoAPI.getHistoricoManutencao(); // Chama a API e obtém todo o histórico de manutenções
+        return manutencao;
     }
 
-    // Update - Atualizar uma manutenção existente
-    public boolean updateManutencao(String id, Manutencao novaManutencao) {
-        for (int i = 0; i < manutencoes.size(); i++) {
-            if (manutencoes.get(i).getId().equals(id)) { // Verifica se o ID é igual
-                manutencoes.set(i, novaManutencao);
-                // Você pode adicionar lógica para atualizar no backend, se necessário
-                return true; // Atualização bem-sucedida
+    public Manutencao readManutencao(String id) {
+        for (Manutencao m : manutencao) { // Usando 'm' para diferenciar da lista 'manutencao'
+            if (m.getId().equals(id)) {
+                return m;
             }
         }
-        return false; // Retorna false se a manutenção com o ID não for encontrada
+        return null; // Caso não encontre a manutenção com o ID
     }
-
-    // Delete - Remover uma manutenção pelo ID
-    public boolean deleteManutencao(String id) {
-        for (int i = 0; i < manutencoes.size(); i++) {
-            if (manutencoes.get(i).getId().equals(id)) { // Verifica se o ID é igual
-                manutencoes.remove(i);
-                // Você pode adicionar lógica para remover do backend, se necessário
-                return true; // Remoção bem-sucedida
+    public void updateManutencao(String id, Manutencao manutencaoAtualizada) {
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("ID da manutenção não pode ser vazio.");
+        }
+    
+        // Atualiza a manutenção na API
+        ManutencaoAPI.putManutencao(manutencaoAtualizada);
+    
+        // Atualiza a lista local
+        for (int i = 0; i < manutencao.size(); i++) {
+            if (manutencao.get(i).getId().equals(id)) {
+                manutencao.set(i, manutencaoAtualizada); // Atualiza a manutenção local
+                return; // Atualização concluída
             }
         }
-        return false; // Retorna false se a manutenção com o ID não for encontrada
+    
+        // Se a manutenção não for encontrada, lança uma exceção
+        throw new IllegalArgumentException("Manutenção com ID " + id + " não encontrada.");
     }
+    
+    public void deleteManutencao(String id) {
+        for (int i = 0; i < manutencao.size(); i++) {
+            if (manutencao.get(i).getId().equals(id)) {
+                // Remove a manutenção da API
+                ManutencaoAPI.deleteManutencao(id);
+                // Remove da lista local
+                manutencao.remove(i);
+                return; // Exclusão concluída
+            }
+        }
+        throw new IllegalArgumentException("Manutenção com ID " + id + " não encontrada.");
+    }
+    
 }

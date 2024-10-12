@@ -68,4 +68,53 @@ public static void postData(String endpoint, String inputData){
     e.printStackTrace();
 }
 } 
+
+// PUT
+public static void putData(String endpoint, String inputData) {
+    try {
+        URL url = new URL(API_URL + endpoint);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("PUT");
+        connection.setRequestProperty("Content-Type", "application/json; utf-8");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoOutput(true);
+
+        try (BufferedWriter bw = new BufferedWriter(
+                new OutputStreamWriter(connection.getOutputStream(), "UTF-8"))) {
+            bw.write(inputData);
+            bw.flush();
+        }
+
+        int status = connection.getResponseCode();
+        if (status != HttpURLConnection.HTTP_OK) {
+            throw new Exception("Erro ao atualizar: " + status);
+        }
+        System.out.println("Atualização realizada com sucesso");
+        connection.disconnect();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+// DELETE
+public static void deleteData(String endpoint) {
+    try {
+        URL url = new URL(API_URL + endpoint);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("DELETE");
+
+        int status = connection.getResponseCode();
+        if (status != HttpURLConnection.HTTP_NO_CONTENT) {
+            throw new Exception("Erro ao deletar: " + status);
+        }
+        System.out.println("Deleção realizada com sucesso");
+        connection.disconnect();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+
 }

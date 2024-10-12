@@ -15,14 +15,24 @@ public class MaquinaAPI {
     public static List<Maquina> getMaquinas() {
         String json = ApiConnection.getData("maquinas");
         List<Maquina> maquinas = new ArrayList<>();
-
+    
         if (json != null) {
             JSONArray jsonArray = new JSONArray(json);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+    
+                // Verificar se o campo "codigo" existe
+                String codigo = "";
+                if (jsonObject.has("codigo")) {
+                    codigo = jsonObject.getString("codigo");
+                } else {
+                    System.out.println("Campo 'codigo' não encontrado para a máquina com ID: " + jsonObject.getString("id"));
+                }
+    
+                // Continuar preenchendo os demais campos normalmente
                 Maquina maquina = new Maquina(
                     jsonObject.getString("id"),
-                    jsonObject.getString("codigo"),
+                    codigo,  // Usar o valor de "codigo", mesmo que possa estar vazio
                     jsonObject.getString("nome"),
                     jsonObject.getString("modelo"),
                     jsonObject.getString("fabricante"),
@@ -37,6 +47,7 @@ public class MaquinaAPI {
         }
         return maquinas;
     }
+    
     public static void postMaquina(Maquina maquina) {
         JSONObject maquinaObject = new JSONObject();
         maquinaObject.put("ID",maquina.getId());
@@ -55,4 +66,32 @@ public class MaquinaAPI {
             
         }
     }
+
+  // PUT
+public static void putMaquina(Maquina maquina) {
+    JSONObject maquinaObject = new JSONObject();
+    maquinaObject.put("codigo", maquina.getCodigo());
+    maquinaObject.put("nome", maquina.getNome());
+    maquinaObject.put("modelo", maquina.getModelo());
+    maquinaObject.put("fabricante", maquina.getFabricante());
+    maquinaObject.put("dataAquisicao", maquina.getDataAquisicao().toString());
+    maquinaObject.put("tempoVidaEstimado", maquina.getTempoVidaEstimado());
+    maquinaObject.put("localizacao", maquina.getLocalizacao());
+    maquinaObject.put("detalhes", maquina.getDetalhes());
+    maquinaObject.put("manual", maquina.getManual());
+
+    if (!maquinaObject.isEmpty()) {
+        // O endpoint deve incluir o ID da máquina que você deseja atualizar
+        String endpoint = "maquinas/" + maquina.getId();
+        ApiConnection.putData(endpoint, maquinaObject.toString());
+    }
+}
+
+// DELETE
+public static void deleteMaquina(String id) {
+    // O endpoint deve incluir o ID da máquina que você deseja deletar
+    String endpoint = "maquinas/" + id;
+    ApiConnection.deleteData(endpoint);
+}
+  
 }
