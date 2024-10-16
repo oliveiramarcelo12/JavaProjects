@@ -1,0 +1,7 @@
+Relatório de Técnicos
+=====================
+ID: 1
+Nome: Marcelo J
+Especialidade: MecÃƒÂ¢nico
+Disponibilidade: Tarde
+---------------------

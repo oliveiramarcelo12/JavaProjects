@@ -17,9 +17,6 @@ public class SistemaManutencaoGUI extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
-        
-        // Estilo da janela
-        this.getContentPane().setBackground(new Color(240, 240, 240)); // Cor de fundo suave
 
         // Inicialização dos painéis
         inicializarPainéis();
@@ -40,6 +37,4 @@ public class SistemaManutencaoGUI extends JFrame {
         painelFalhas = new FalhasPanel();
         painelTecnicos = new TecnicosPanel();
     }
-
-   
 }

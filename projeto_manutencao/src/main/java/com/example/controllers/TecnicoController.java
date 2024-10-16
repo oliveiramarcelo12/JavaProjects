@@ -59,4 +59,15 @@ public class TecnicoController {
         }
         throw new IllegalArgumentException("Técnico com ID " + id + " não encontrado.");
     }
+
+        // Método que verifica se um técnico com o ID já existe
+        public boolean existeTecnico(String id) {
+            for (Tecnico tecnico : tecnicos) {
+                if (tecnico.getId().equals(id)) {
+                    return true; // Retorna true se o ID já estiver cadastrado
+                }
+            }
+            return false; // Retorna false se o ID não for encontrado
+        }
+    
 }

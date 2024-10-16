@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import com.example.controllers.RelatorioTecnicoController;
 import com.example.controllers.TecnicoController;
 import com.example.models.Tecnico;
 
@@ -18,6 +20,7 @@ public class TecnicosPanel extends JPanel {
     private DefaultTableModel tableModel;
     private JButton btnCadastrarTecnico;
     private JButton btnDeletarTecnico;
+    private JButton btnGerarRelatorio;
 
     // Construtor
     public TecnicosPanel() {
@@ -25,14 +28,13 @@ public class TecnicosPanel extends JPanel {
         tecnicoController = new TecnicoController();
 
         // Definir as colunas da tabela
-        tableModel = new DefaultTableModel(new Object[]{
+        tableModel = new DefaultTableModel(new Object[] {
                 "ID", "Nome", "Especialidade", "Disponibilidade"
         }, 0);
         tecnicosTable = new JTable(tableModel) {
-            // Desabilitar edição de células
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Não permite edição em nenhuma célula
+                return false; // Desabilitar edição de células
             }
         };
 
@@ -57,19 +59,30 @@ public class TecnicosPanel extends JPanel {
         // Estilizar os botões
         estilizarBotao(btnCadastrarTecnico);
         estilizarBotao(btnDeletarTecnico);
-
         painelInferior.add(btnCadastrarTecnico);
         painelInferior.add(btnDeletarTecnico);
         this.add(painelInferior, BorderLayout.SOUTH);
 
-        // Criar os ActionListeners para os botões
+        btnGerarRelatorio = new JButton("Gerar Relatório");
+        estilizarBotao(btnGerarRelatorio);
+        painelInferior.add(btnGerarRelatorio);
+
+        // Criar ActionListeners para os botões
         btnCadastrarTecnico.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mostrarFormularioCadastro(null); // Passa null para criar novo técnico
+                mostrarFormularioCadastro(null); // Para cadastrar novo técnico
             }
         });
 
+        btnGerarRelatorio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RelatorioTecnicoController relatorioTecnicos = new RelatorioTecnicoController();
+                relatorioTecnicos.gerarRelatorio(); // Chama o método para gerar o relatório
+            }
+        });
+        
         btnDeletarTecnico.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -78,7 +91,6 @@ public class TecnicosPanel extends JPanel {
                     int confirm = JOptionPane.showConfirmDialog(null, "Você realmente deseja deletar este técnico?",
                             "Confirmação", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        // Deletar o técnico
                         String id = (String) tableModel.getValueAt(selectedRow, 0);
                         tecnicoController.deleteTecnico(id); // Deletar pelo ID
                         tableModel.removeRow(selectedRow); // Remover da tabela
@@ -91,11 +103,11 @@ public class TecnicosPanel extends JPanel {
             }
         });
 
-        // Adicionar um MouseListener para detectar duplo clique na tabela
+        // Detectar duplo clique na tabela
         tecnicosTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) { // Verifica se foi um duplo clique
+                if (e.getClickCount() == 2) { // Duplo clique
                     int selectedRow = tecnicosTable.getSelectedRow();
                     if (selectedRow != -1) {
                         Tecnico tecnicoSelecionado = new Tecnico();
@@ -103,7 +115,7 @@ public class TecnicosPanel extends JPanel {
                         tecnicoSelecionado.setNome((String) tableModel.getValueAt(selectedRow, 1));
                         tecnicoSelecionado.setEspecialidade((String) tableModel.getValueAt(selectedRow, 2));
                         tecnicoSelecionado.setDisponibilidade((String) tableModel.getValueAt(selectedRow, 3));
-                        mostrarFormularioCadastro(tecnicoSelecionado); // Passa o técnico selecionado para o formulário
+                        mostrarFormularioCadastro(tecnicoSelecionado); // Atualizar técnico
                     }
                 }
             }
@@ -111,40 +123,39 @@ public class TecnicosPanel extends JPanel {
     }
 
     private void estilizarBotao(JButton botao) {
-        botao.setBackground(new Color(70, 130, 180)); // Cor de fundo
-        botao.setForeground(Color.WHITE); // Cor do texto
-        botao.setFont(new Font("Arial", Font.BOLD, 14)); // Fonte
-        botao.setFocusPainted(false); // Remove o contorno ao clicar
-        botao.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Bordas com espaçamento
-        botao.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Cursor de mão
+        botao.setBackground(new Color(70, 130, 180));
+        botao.setForeground(Color.WHITE);
+        botao.setFont(new Font("Arial", Font.BOLD, 14));
+        botao.setFocusPainted(false);
+        botao.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        botao.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     private void atualizarTabela() {
-        tableModel.setRowCount(0); // Limpa a tabela antes de atualizar
+        tableModel.setRowCount(0); // Limpar antes de atualizar
         List<Tecnico> tecnicos = tecnicoController.readTecnicos();
         for (Tecnico tecnico : tecnicos) {
-            tableModel.addRow(new Object[]{
+            tableModel.addRow(new Object[] {
                     tecnico.getId(),
                     tecnico.getNome(),
                     tecnico.getEspecialidade(),
-                    tecnico.getDisponibilidade() // Atualizado para usar a disponibilidade
+                    tecnico.getDisponibilidade()
             });
         }
     }
 
     private void mostrarFormularioCadastro(Tecnico tecnico) {
-        // Criar um JDialog para o formulário de cadastro
         JDialog dialog = new JDialog();
         dialog.setTitle(tecnico == null ? "Cadastrar Técnico" : "Atualizar Técnico");
         dialog.setModal(true);
         dialog.setSize(300, 300);
         dialog.setLayout(new GridLayout(5, 2));
 
-        // Campos do formulário
-        JTextField txtId = new JTextField(tecnico != null ? tecnico.getId() : ""); // Carrega dados
-        JTextField txtNome = new JTextField(tecnico != null ? tecnico.getNome() : ""); // Carrega dados
-        JTextField txtEspecialidade = new JTextField(tecnico != null ? tecnico.getEspecialidade() : ""); // Carrega dados
-        JTextField txtDisponibilidade = new JTextField(tecnico != null ? tecnico.getDisponibilidade() : ""); // Carrega dados
+        JTextField txtId = new JTextField(tecnico != null ? tecnico.getId() : "");
+        txtId.setEditable(tecnico == null); // O ID não pode ser alterado durante a atualização
+        JTextField txtNome = new JTextField(tecnico != null ? tecnico.getNome() : "");
+        JTextField txtEspecialidade = new JTextField(tecnico != null ? tecnico.getEspecialidade() : "");
+        JTextField txtDisponibilidade = new JTextField(tecnico != null ? tecnico.getDisponibilidade() : "");
 
         dialog.add(new JLabel("ID:"));
         dialog.add(txtId);
@@ -155,45 +166,50 @@ public class TecnicosPanel extends JPanel {
         dialog.add(new JLabel("Disponibilidade:"));
         dialog.add(txtDisponibilidade);
 
-        // Botão para salvar
         JButton btnSalvar = new JButton("Salvar");
+        estilizarBotao(btnSalvar);
         dialog.add(btnSalvar);
 
-        // Estilizar o botão
-        estilizarBotao(btnSalvar);
-
-        // Ação do botão de salvar
         btnSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Tecnico novoTecnico = tecnico != null ? tecnico : new Tecnico(); // Usa o técnico existente para atualização
+                if (txtId.getText().isEmpty() || txtNome.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(dialog, "Preencha todos os campos!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                Tecnico novoTecnico = tecnico != null ? tecnico : new Tecnico();
                 novoTecnico.setId(txtId.getText());
                 novoTecnico.setNome(txtNome.getText());
                 novoTecnico.setEspecialidade(txtEspecialidade.getText());
                 novoTecnico.setDisponibilidade(txtDisponibilidade.getText());
 
                 if (tecnico == null) {
-                    tecnicoController.createTecnico(novoTecnico); // Chamada para o método que adiciona o técnico
-                    tableModel.addRow(new Object[]{
+                    if (tecnicoController.existeTecnico(novoTecnico.getId())) {
+                        JOptionPane.showMessageDialog(dialog, "ID já existe!", "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    tecnicoController.createTecnico(novoTecnico);
+                    tableModel.addRow(new Object[] {
                             novoTecnico.getId(),
                             novoTecnico.getNome(),
                             novoTecnico.getEspecialidade(),
-                            novoTecnico.getDisponibilidade() // Adicionar o novo técnico à tabela
+                            novoTecnico.getDisponibilidade()
                     });
                     JOptionPane.showMessageDialog(dialog, "Técnico cadastrado com sucesso!");
                 } else {
-                    tecnicoController.updateTecnico(novoTecnico); // Chamada para o método que atualiza o técnico
+                    tecnicoController.updateTecnico(novoTecnico);
                     int selectedRow = tecnicosTable.getSelectedRow();
                     tableModel.setValueAt(novoTecnico.getNome(), selectedRow, 1);
                     tableModel.setValueAt(novoTecnico.getEspecialidade(), selectedRow, 2);
                     tableModel.setValueAt(novoTecnico.getDisponibilidade(), selectedRow, 3);
                     JOptionPane.showMessageDialog(dialog, "Técnico atualizado com sucesso!");
                 }
-                dialog.dispose(); // Fecha o diálogo
-                atualizarTabela(); // Atualiza a tabela após a operação
+                dialog.dispose();
+                atualizarTabela();
             }
         });
 
-        dialog.setVisible(true); // Mostrar o diálogo
+        dialog.setVisible(true);
     }
 }
