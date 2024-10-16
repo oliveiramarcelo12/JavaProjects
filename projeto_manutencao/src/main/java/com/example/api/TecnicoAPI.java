@@ -1,16 +1,10 @@
 package com.example.api;
 
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.models.Tecnico;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
+import java.util.List;
+import java.util.ArrayList;
+import org.json.JSONArray;
 
 public class TecnicoAPI {
 
@@ -34,6 +28,36 @@ public class TecnicoAPI {
         }
         return tecnicos;
     }
-    
-}
 
+    // Método para adicionar um técnico (POST)
+    public static void postTecnico(Tecnico tecnico) {
+        JSONObject tecnicoObject = new JSONObject();
+        tecnicoObject.put("id", tecnico.getId());
+        tecnicoObject.put("nome", tecnico.getNome());
+        tecnicoObject.put("especialidade", tecnico.getEspecialidade());
+        tecnicoObject.put("disponibilidade", tecnico.getDisponibilidade());
+
+        if (!tecnicoObject.isEmpty()) {
+            ApiConnection.postData("tecnicos", tecnicoObject.toString());
+        }
+    }
+
+    // Método para atualizar um técnico (PUT)
+    public static void putTecnico(Tecnico tecnico) {
+        JSONObject tecnicoObject = new JSONObject();
+        tecnicoObject.put("nome", tecnico.getNome());
+        tecnicoObject.put("especialidade", tecnico.getEspecialidade());
+        tecnicoObject.put("disponibilidade", tecnico.getDisponibilidade());
+
+        if (!tecnicoObject.isEmpty()) {
+            String endpoint = "tecnicos/" + tecnico.getId();
+            ApiConnection.putData(endpoint, tecnicoObject.toString());
+        }
+    }
+
+    // Método para deletar um técnico (DELETE)
+    public static void deleteTecnico(String id) {
+        String endpoint = "tecnicos/" + id;
+        ApiConnection.deleteData(endpoint);
+    }
+}

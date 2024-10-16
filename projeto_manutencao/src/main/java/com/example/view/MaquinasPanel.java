@@ -18,7 +18,6 @@ public class MaquinasPanel extends JPanel {
     private JTable maquinasTable;
     private DefaultTableModel tableModel;
     private JButton btnCadastrarMaquina;
-    private JButton btnDeletarMaquina;
 
     // Construtor
     public MaquinasPanel() {
@@ -26,7 +25,7 @@ public class MaquinasPanel extends JPanel {
         maquinaController = new MaquinaController();
 
         // Definir as colunas da tabela
-        tableModel = new DefaultTableModel(new Object[] {
+        tableModel = new DefaultTableModel(new Object[]{
                 "ID", "Código", "Nome", "Fabricante", "Modelo", "Detalhes", "Localização", "Tempo Vida"
         }, 0);
         maquinasTable = new JTable(tableModel) {
@@ -37,57 +36,34 @@ public class MaquinasPanel extends JPanel {
             }
         };
 
-        // Preencher a tabela com dados das máquinas
-        List<Maquina> maquinas = maquinaController.readMaquinas();
-        for (Maquina maquina : maquinas) {
-            tableModel.addRow(new Object[] {
-                    maquina.getId(),
-                    maquina.getCodigo(),
-                    maquina.getNome(),
-                    maquina.getFabricante(),
-                    maquina.getModelo(),
-                    maquina.getDetalhes(),
-                    maquina.getLocalizacao(),
-                    maquina.getTempoVidaEstimado()
-            });
-        }
-
+        // Estilizar a tabela
+        maquinasTable.setFillsViewportHeight(true);
+        maquinasTable.setBackground(Color.WHITE);
+        maquinasTable.setFont(new Font("Arial", Font.PLAIN, 12));
+        maquinasTable.setRowHeight(25);
+        maquinasTable.setSelectionBackground(Color.LIGHT_GRAY);
+        maquinasTable.setSelectionForeground(Color.BLACK);
         JScrollPane scrollPane = new JScrollPane(maquinasTable);
         this.add(scrollPane, BorderLayout.CENTER);
+
+        // Preencher a tabela com dados das máquinas
+        atualizarTabela();
 
         // Adicionar os botões
         JPanel painelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER));
         btnCadastrarMaquina = new JButton("Cadastrar");
-        btnDeletarMaquina = new JButton("Deletar");
+        
+        // Estilizar botões
+        estilizarBotao(btnCadastrarMaquina);
+        
         painelInferior.add(btnCadastrarMaquina);
-        painelInferior.add(btnDeletarMaquina);
         this.add(painelInferior, BorderLayout.SOUTH);
 
-        // Criar os ActionListeners para os botões
+        // Criar o ActionListener para o botão de cadastrar
         btnCadastrarMaquina.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarFormularioCadastro();
-            }
-        });
-
-        btnDeletarMaquina.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = maquinasTable.getSelectedRow();
-                if (selectedRow != -1) {
-                    int confirm = JOptionPane.showConfirmDialog(null, "Você realmente deseja deletar esta máquina?",
-                            "Confirmação", JOptionPane.YES_NO_OPTION);
-                    if (confirm == JOptionPane.YES_OPTION) {
-                        // Deletar a máquina
-                        maquinaController.deleteMaquina(selectedRow);
-                        tableModel.removeRow(selectedRow); // Remover da tabela
-                        JOptionPane.showMessageDialog(null, "Máquina deletada com sucesso!");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Selecione uma máquina para deletar!", "Erro",
-                            JOptionPane.ERROR_MESSAGE);
-                }
             }
         });
 
@@ -113,6 +89,33 @@ public class MaquinasPanel extends JPanel {
                 }
             }
         });
+    }
+
+    private void estilizarBotao(JButton botao) {
+        botao.setBackground(new Color(70, 130, 180)); // Cor de fundo
+        botao.setForeground(Color.WHITE); // Cor do texto
+        botao.setFont(new Font("Arial", Font.BOLD, 14)); // Fonte
+        botao.setFocusPainted(false); // Remove o contorno ao clicar
+        botao.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Bordas com espaçamento
+        botao.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Cursor de mão
+    }
+
+    private void atualizarTabela() {
+        List<Maquina> maquinas = maquinaController.readMaquinas();
+        // Limpar a tabela antes de adicionar as máquinas
+        tableModel.setRowCount(0);
+        for (Maquina maquina : maquinas) {
+            tableModel.addRow(new Object[]{
+                    maquina.getId(),
+                    maquina.getCodigo(),
+                    maquina.getNome(),
+                    maquina.getFabricante(),
+                    maquina.getModelo(),
+                    maquina.getDetalhes(),
+                    maquina.getLocalizacao(),
+                    maquina.getTempoVidaEstimado()
+            });
+        }
     }
 
     private void mostrarFormularioCadastro() {
@@ -197,7 +200,7 @@ public class MaquinasPanel extends JPanel {
                 maquinaController.createMaquina(novaMaquina); // Certifique-se de que este método exista no controller
 
                 // Adicionar a nova máquina à tabela
-                tableModel.addRow(new Object[] {
+                tableModel.addRow(new Object[]{
                         novaMaquina.getId(), // Supondo que o ID é gerado na API ou em outro lugar
                         novaMaquina.getCodigo(),
                         novaMaquina.getNome(),
@@ -205,13 +208,12 @@ public class MaquinasPanel extends JPanel {
                         novaMaquina.getModelo(),
                         novaMaquina.getDetalhes(),
                         novaMaquina.getLocalizacao(),
-                        novaMaquina.getTempoVidaEstimado(),
-                        novaMaquina.getDataAquisicao(), // Adicione a data de aquisição
-                        novaMaquina.getManual() // Adicione o manual
+                        novaMaquina.getTempoVidaEstimado()
                 });
 
-                dialog.dispose(); // Fecha o diálogo
-                JOptionPane.showMessageDialog(MaquinasPanel.this, "Máquina cadastrada com sucesso!");
+                // Fechar o diálogo
+                dialog.dispose();
+                JOptionPane.showMessageDialog(null, "Máquina cadastrada com sucesso!");
             }
         });
 
@@ -224,9 +226,9 @@ public class MaquinasPanel extends JPanel {
         dialog.setTitle("Atualizar Máquina");
         dialog.setModal(true);
         dialog.setSize(400, 400);
-        dialog.setLayout(new GridLayout(10, 2)); // Aumentar linhas para incluir mais campos
+        dialog.setLayout(new GridLayout(10, 2));
 
-        // Campos do formulário com os dados atuais da máquina
+        // Campos do formulário pré-preenchidos
         JTextField txtCodigo = new JTextField(maquina.getCodigo());
         JTextField txtNome = new JTextField(maquina.getNome());
         JTextField txtFabricante = new JTextField(maquina.getFabricante());
@@ -234,9 +236,8 @@ public class MaquinasPanel extends JPanel {
         JTextField txtDetalhes = new JTextField(maquina.getDetalhes());
         JTextField txtLocalizacao = new JTextField(maquina.getLocalizacao());
         JTextField txtTempoVida = new JTextField(String.valueOf(maquina.getTempoVidaEstimado()));
-        JTextField txtDataAquisicao = new JTextField(maquina.getDataAquisicao().toString()); // Preencher com a data de
-                                                                                             // aquisição
-        JTextField txtManual = new JTextField(maquina.getManual()); // Preencher com o manual
+        JTextField txtDataAquisicao = new JTextField(maquina.getDataAquisicao().toString());
+        JTextField txtManual = new JTextField(maquina.getManual());
 
         dialog.add(new JLabel("Código:"));
         dialog.add(txtCodigo);
@@ -257,16 +258,15 @@ public class MaquinasPanel extends JPanel {
         dialog.add(new JLabel("Manual:"));
         dialog.add(txtManual);
 
-        // Botão para salvar
-        JButton btnSalvar = new JButton("Salvar");
-        dialog.add(btnSalvar);
+        // Botão para atualizar
+        JButton btnAtualizar = new JButton("Atualizar");
+        dialog.add(btnAtualizar);
 
-        // Ação do botão de salvar
-        // Ação do botão de salvar
-        btnSalvar.addActionListener(new ActionListener() {
+        // Ação do botão de atualizar
+        btnAtualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Atualizar a máquina com os novos dados
+                // Atualizar os dados da máquina
                 maquina.setCodigo(txtCodigo.getText());
                 maquina.setNome(txtNome.getText());
                 maquina.setFabricante(txtFabricante.getText());
@@ -284,7 +284,7 @@ public class MaquinasPanel extends JPanel {
                     return;
                 }
 
-                // Atualizar a data de aquisição
+                // Converter a data de aquisição
                 try {
                     LocalDate dataAquisicao = LocalDate.parse(txtDataAquisicao.getText());
                     maquina.setDataAquisicao(dataAquisicao);
@@ -297,36 +297,25 @@ public class MaquinasPanel extends JPanel {
                 // Definir o manual se necessário
                 maquina.setManual(txtManual.getText());
 
-                // Atualiza a máquina na API
-                try {
-                    maquinaController.updateMaquina(maquina); // Chamada corrigida para o método
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(dialog, "Falha ao atualizar a máquina na API: " + ex.getMessage(),
-                            "Erro", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+                // Atualizar a máquina usando o controlador
+                maquinaController.updateMaquina(maquina); // Certifique-se de que este método exista no controller
 
-                // Atualiza a tabela
-                int rowIndex = maquinasTable.getSelectedRow();
-                if (rowIndex != -1) { // Verifica se há uma linha selecionada
-                    tableModel.setValueAt(maquina.getCodigo(), rowIndex, 1);
-                    tableModel.setValueAt(maquina.getNome(), rowIndex, 2);
-                    tableModel.setValueAt(maquina.getFabricante(), rowIndex, 3);
-                    tableModel.setValueAt(maquina.getModelo(), rowIndex, 4);
-                    tableModel.setValueAt(maquina.getDetalhes(), rowIndex, 5);
-                    tableModel.setValueAt(maquina.getLocalizacao(), rowIndex, 6);
-                    tableModel.setValueAt(maquina.getTempoVidaEstimado(), rowIndex, 7);
-                    tableModel.setValueAt(maquina.getDataAquisicao(), rowIndex, 8); // Atualizar a data de aquisição
-                    tableModel.setValueAt(maquina.getManual(), rowIndex, 9); // Atualizar o manual
-                }
+                // Atualizar a tabela
+                int selectedRow = maquinasTable.getSelectedRow();
+                tableModel.setValueAt(maquina.getCodigo(), selectedRow, 1);
+                tableModel.setValueAt(maquina.getNome(), selectedRow, 2);
+                tableModel.setValueAt(maquina.getFabricante(), selectedRow, 3);
+                tableModel.setValueAt(maquina.getModelo(), selectedRow, 4);
+                tableModel.setValueAt(maquina.getDetalhes(), selectedRow, 5);
+                tableModel.setValueAt(maquina.getLocalizacao(), selectedRow, 6);
+                tableModel.setValueAt(maquina.getTempoVidaEstimado(), selectedRow, 7);
 
-                dialog.dispose(); // Fecha o diálogo
-                JOptionPane.showMessageDialog(MaquinasPanel.this, "Máquina atualizada com sucesso!");
+                // Fechar o diálogo
+                dialog.dispose();
+                JOptionPane.showMessageDialog(null, "Máquina atualizada com sucesso!");
             }
         });
 
-        dialog.setVisible(true); // Mostrar o diálogo
-
+        dialog.setVisible(true);
     }
-
 }

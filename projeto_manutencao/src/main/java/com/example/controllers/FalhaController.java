@@ -3,8 +3,8 @@ package com.example.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.models.Falha;
 import com.example.api.FalhaAPI;
+import com.example.models.Falha;
 
 public class FalhaController {
     private List<Falha> falhas;
@@ -15,8 +15,8 @@ public class FalhaController {
 
     // Create - Adicionar uma nova falha
     public void createFalha(Falha falha) {
-        falhas.add(falha);
-      
+        FalhaAPI.postFalha(falha); // Envia a nova falha para a API
+        falhas.add(falha); // Adiciona à lista local
     }
 
     // Read - Listar todas as falhas
@@ -25,27 +25,29 @@ public class FalhaController {
         return falhas;
     }
 
-    // Update - Atualizar uma falha existente
-    public boolean updateFalha(String id, Falha novaFalha) {
-        for (int i = 0; i < falhas.size(); i++) {
-            if (falhas.get(i).getId().equals(id)) { // Verifica se o ID é igual
-                falhas.set(i, novaFalha);
-                // Lógica adicional para atualizar a falha no backend, se necessário
-                return true; // Atualização bem-sucedida
+    // Read - Buscar uma falha específica pelo ID
+    public Falha readFalha(String id) {
+        for (Falha falha : falhas) {
+            if (falha.getId().equals(id)) {
+                return falha; // Retorna a falha se o ID for encontrado
             }
         }
-        return false; // Retorna false se a falha com o ID não for encontrada
+        return null; // Retorna null se não encontrar a falha com o ID fornecido
     }
 
-    // Delete - Remover uma falha pelo ID
-    public boolean deleteFalha(String id) {
+    // Update - Atualizar uma falha existente
+    public void updateFalha(Falha falha) {
+        FalhaAPI.putFalha(falha); // Atualiza a falha na API
+
+        // Atualiza a lista local
         for (int i = 0; i < falhas.size(); i++) {
-            if (falhas.get(i).getId().equals(id)) { // Verifica se o ID é igual
-                falhas.remove(i);
-                // Lógica adicional para remover a falha do backend, se necessário
-                return true; // Remoção bem-sucedida
+            if (falhas.get(i).getId().equals(falha.getId())) {
+                falhas.set(i, falha); // Atualiza a falha na lista local
+                return; // Atualização concluída
             }
         }
-        return false; // Retorna false se a falha com o ID não for encontrada
+        throw new IllegalArgumentException("Falha com ID " + falha.getId() + " não encontrada.");
     }
+
+  
 }
