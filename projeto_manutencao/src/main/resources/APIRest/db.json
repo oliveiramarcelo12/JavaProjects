@@ -1,16 +1,16 @@
 {
   "maquinas": [
     {
-      "id": "2",
-      "codigo": "M002",
-      "nome": "Torno CNC",
-      "modelo": "CNC 3500",
-      "fabricante": "Siemens",
-      "dataAquisicao": "2022-01-10",
       "tempoVidaEstimado": 15,
+      "codigo": "M002",
       "localizacao": "Linha 2",
-      "detalhes": "Operação em alta precisão",
-      "manual": "URL do manual"
+      "nome": "Torno CNC",
+      "fabricante": "Siemens",
+      "manual": "URL do manual",
+      "modelo": "CNC 3500",
+      "dataAquisicao": "2022-01-10",
+      "detalhes": "OperaÃ§Ã£o em alta precisÃ£o",
+      "id": "2"
     },
     {
       "tempoVidaEstimado": 12,
@@ -81,7 +81,7 @@
   ],
   "tecnicos": [
     {
-      "especialidade": "MecÃ¢nico",
+      "especialidade": "MecÃƒÂ¢nico",
       "disponibilidade": "Tarde",
       "nome": "Marcelo J",
       "id": "1"

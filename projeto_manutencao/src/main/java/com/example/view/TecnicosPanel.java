@@ -88,8 +88,11 @@ public class TecnicosPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = tecnicosTable.getSelectedRow();
                 if (selectedRow != -1) {
-                    int confirm = JOptionPane.showConfirmDialog(null, "Você realmente deseja deletar este técnico?",
-                            "Confirmação", JOptionPane.YES_NO_OPTION);
+                    String nomeTecnico = (String) tableModel.getValueAt(selectedRow, 1); // Obtendo o nome do técnico
+                    int confirm = JOptionPane.showConfirmDialog(null, 
+                            "Você realmente deseja deletar o técnico \"" + nomeTecnico + "\"? Esta ação não pode ser desfeita.", 
+                            "Confirmação de Deleção", 
+                            JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         String id = (String) tableModel.getValueAt(selectedRow, 0);
                         tecnicoController.deleteTecnico(id); // Deletar pelo ID
@@ -177,13 +180,13 @@ public class TecnicosPanel extends JPanel {
                     JOptionPane.showMessageDialog(dialog, "Preencha todos os campos!", "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
+        
                 Tecnico novoTecnico = tecnico != null ? tecnico : new Tecnico();
                 novoTecnico.setId(txtId.getText());
                 novoTecnico.setNome(txtNome.getText());
                 novoTecnico.setEspecialidade(txtEspecialidade.getText());
                 novoTecnico.setDisponibilidade(txtDisponibilidade.getText());
-
+        
                 if (tecnico == null) {
                     if (tecnicoController.existeTecnico(novoTecnico.getId())) {
                         JOptionPane.showMessageDialog(dialog, "ID já existe!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -198,12 +201,20 @@ public class TecnicosPanel extends JPanel {
                     });
                     JOptionPane.showMessageDialog(dialog, "Técnico cadastrado com sucesso!");
                 } else {
-                    tecnicoController.updateTecnico(novoTecnico);
-                    int selectedRow = tecnicosTable.getSelectedRow();
-                    tableModel.setValueAt(novoTecnico.getNome(), selectedRow, 1);
-                    tableModel.setValueAt(novoTecnico.getEspecialidade(), selectedRow, 2);
-                    tableModel.setValueAt(novoTecnico.getDisponibilidade(), selectedRow, 3);
-                    JOptionPane.showMessageDialog(dialog, "Técnico atualizado com sucesso!");
+                    int confirm = JOptionPane.showConfirmDialog(dialog, 
+                            "Você está prestes a atualizar os dados do técnico \"" + tecnico.getNome() + "\". Deseja continuar?", 
+                            "Confirmação de Atualização", 
+                            JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        tecnicoController.updateTecnico(novoTecnico);
+                        int selectedRow = tecnicosTable.getSelectedRow();
+                        tableModel.setValueAt(novoTecnico.getNome(), selectedRow, 1);
+                        tableModel.setValueAt(novoTecnico.getEspecialidade(), selectedRow, 2);
+                        tableModel.setValueAt(novoTecnico.getDisponibilidade(), selectedRow, 3);
+                        JOptionPane.showMessageDialog(dialog, "Técnico atualizado com sucesso!");
+                    } else {
+                        return; // Se o usuário não confirmar, sai da função
+                    }
                 }
                 dialog.dispose();
                 atualizarTabela();

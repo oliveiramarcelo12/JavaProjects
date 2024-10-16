@@ -28,6 +28,8 @@ public class MaquinasPanel extends JPanel {
         tableModel = new DefaultTableModel(new Object[]{
                 "ID", "Código", "Nome", "Fabricante", "Modelo", "Detalhes", "Localização", "Tempo Vida"
         }, 0);
+        
+        // Criação da tabela com a modelagem definida
         maquinasTable = new JTable(tableModel) {
             // Desabilitar edição de células
             @Override
@@ -37,12 +39,8 @@ public class MaquinasPanel extends JPanel {
         };
 
         // Estilizar a tabela
-        maquinasTable.setFillsViewportHeight(true);
-        maquinasTable.setBackground(Color.WHITE);
-        maquinasTable.setFont(new Font("Arial", Font.PLAIN, 12));
-        maquinasTable.setRowHeight(25);
-        maquinasTable.setSelectionBackground(Color.LIGHT_GRAY);
-        maquinasTable.setSelectionForeground(Color.BLACK);
+        estilizarTabela();
+
         JScrollPane scrollPane = new JScrollPane(maquinasTable);
         this.add(scrollPane, BorderLayout.CENTER);
 
@@ -89,6 +87,16 @@ public class MaquinasPanel extends JPanel {
                 }
             }
         });
+    }
+
+    // Método para estilizar a tabela
+    private void estilizarTabela() {
+        maquinasTable.setFillsViewportHeight(true);
+        maquinasTable.setBackground(Color.WHITE);
+        maquinasTable.setFont(new Font("Arial", Font.PLAIN, 12));
+        maquinasTable.setRowHeight(25);
+        maquinasTable.setSelectionBackground(Color.LIGHT_GRAY);
+        maquinasTable.setSelectionForeground(Color.BLACK);
     }
 
     private void estilizarBotao(JButton botao) {
@@ -258,64 +266,70 @@ public class MaquinasPanel extends JPanel {
         dialog.add(new JLabel("Manual:"));
         dialog.add(txtManual);
 
-        // Botão para atualizar
-        JButton btnAtualizar = new JButton("Atualizar");
-        dialog.add(btnAtualizar);
+        // Botão para salvar
+        JButton btnSalvar = new JButton("Salvar");
+        dialog.add(btnSalvar);
 
-        // Ação do botão de atualizar
-        btnAtualizar.addActionListener(new ActionListener() {
+        // Ação do botão de salvar
+        btnSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Atualizar os dados da máquina
-                maquina.setCodigo(txtCodigo.getText());
-                maquina.setNome(txtNome.getText());
-                maquina.setFabricante(txtFabricante.getText());
-                maquina.setModelo(txtModelo.getText());
-                maquina.setDetalhes(txtDetalhes.getText());
-                maquina.setLocalizacao(txtLocalizacao.getText());
+                // Confirmação antes da atualização
+                int confirm = JOptionPane.showConfirmDialog(dialog,
+                        "Você tem certeza que deseja atualizar os dados da máquina?", "Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    // Atualiza os dados da máquina com os dados do formulário
+                    maquina.setCodigo(txtCodigo.getText());
+                    maquina.setNome(txtNome.getText());
+                    maquina.setFabricante(txtFabricante.getText());
+                    maquina.setModelo(txtModelo.getText());
+                    maquina.setDetalhes(txtDetalhes.getText());
+                    maquina.setLocalizacao(txtLocalizacao.getText());
 
-                // Converter o tempo de vida para número
-                try {
-                    int tempoVida = Integer.parseInt(txtTempoVida.getText());
-                    maquina.setTempoVidaEstimado(tempoVida);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(dialog, "O tempo de vida deve ser um número!", "Erro",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
+                    // Converter o tempo de vida
+                    try {
+                        int tempoVida = Integer.parseInt(txtTempoVida.getText());
+                        maquina.setTempoVidaEstimado(tempoVida);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(dialog, "O tempo de vida deve ser um número!", "Erro",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    // Converter a data de aquisição
+                    try {
+                        LocalDate dataAquisicao = LocalDate.parse(txtDataAquisicao.getText());
+                        maquina.setDataAquisicao(dataAquisicao);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(dialog, "Data de aquisição inválida! Use o formato YYYY-MM-DD.",
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    // Atualizar o manual
+                    maquina.setManual(txtManual.getText());
+
+                    // Atualizar a máquina usando o controlador
+                    maquinaController.updateMaquina(maquina); // Certifique-se de que este método exista no controller
+
+                    // Atualiza a linha correspondente na tabela
+                    int selectedRow = maquinasTable.getSelectedRow();
+                    tableModel.setValueAt(maquina.getCodigo(), selectedRow, 1);
+                    tableModel.setValueAt(maquina.getNome(), selectedRow, 2);
+                    tableModel.setValueAt(maquina.getFabricante(), selectedRow, 3);
+                    tableModel.setValueAt(maquina.getModelo(), selectedRow, 4);
+                    tableModel.setValueAt(maquina.getDetalhes(), selectedRow, 5);
+                    tableModel.setValueAt(maquina.getLocalizacao(), selectedRow, 6);
+                    tableModel.setValueAt(maquina.getTempoVidaEstimado(), selectedRow, 7);
+
+                    // Fechar o diálogo
+                    dialog.dispose();
+                    JOptionPane.showMessageDialog(null, "Máquina atualizada com sucesso!");
                 }
-
-                // Converter a data de aquisição
-                try {
-                    LocalDate dataAquisicao = LocalDate.parse(txtDataAquisicao.getText());
-                    maquina.setDataAquisicao(dataAquisicao);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(dialog, "Data de aquisição inválida! Use o formato YYYY-MM-DD.",
-                            "Erro", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                // Definir o manual se necessário
-                maquina.setManual(txtManual.getText());
-
-                // Atualizar a máquina usando o controlador
-                maquinaController.updateMaquina(maquina); // Certifique-se de que este método exista no controller
-
-                // Atualizar a tabela
-                int selectedRow = maquinasTable.getSelectedRow();
-                tableModel.setValueAt(maquina.getCodigo(), selectedRow, 1);
-                tableModel.setValueAt(maquina.getNome(), selectedRow, 2);
-                tableModel.setValueAt(maquina.getFabricante(), selectedRow, 3);
-                tableModel.setValueAt(maquina.getModelo(), selectedRow, 4);
-                tableModel.setValueAt(maquina.getDetalhes(), selectedRow, 5);
-                tableModel.setValueAt(maquina.getLocalizacao(), selectedRow, 6);
-                tableModel.setValueAt(maquina.getTempoVidaEstimado(), selectedRow, 7);
-
-                // Fechar o diálogo
-                dialog.dispose();
-                JOptionPane.showMessageDialog(null, "Máquina atualizada com sucesso!");
             }
         });
 
-        dialog.setVisible(true);
+        dialog.setVisible(true); // Mostrar o diálogo
     }
 }
