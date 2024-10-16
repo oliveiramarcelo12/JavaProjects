@@ -85,6 +85,12 @@
       "disponibilidade": "Tarde",
       "nome": "Marcelo J",
       "id": "1"
+    },
+    {
+      "id": "2",
+      "especialidade": "Limpador",
+      "disponibilidade": "Diurno",
+      "nome": "Zeca"
     }
   ]
 }

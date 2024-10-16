@@ -2,6 +2,11 @@ Relat�rio de T�cnicos
 =====================
 ID: 1
 Nome: Marcelo J
-Especialidade: MecÃ¢nico
+Especialidade: MecÃƒÂ¢nico
 Disponibilidade: Tarde
+---------------------
+ID: 2
+Nome: Zeca
+Especialidade: Limpador
+Disponibilidade: Diurno
 ---------------------

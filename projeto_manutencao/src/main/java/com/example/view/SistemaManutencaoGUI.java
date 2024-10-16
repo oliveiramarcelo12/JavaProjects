@@ -18,6 +18,12 @@ public class SistemaManutencaoGUI extends JFrame {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
+        // Definir cor de fundo da janela como branca
+        this.getContentPane().setBackground(Color.WHITE);
+
+        // Estilizar abas
+        estilizarAbas();
+
         // Inicialização dos painéis
         inicializarPainéis();
 
@@ -31,10 +37,21 @@ public class SistemaManutencaoGUI extends JFrame {
         this.add(tabbedPane, BorderLayout.CENTER);
     }
 
+    private void estilizarAbas() {
+        // Definindo as cores das abas
+        UIManager.put("TabbedPane.selectedBackground", new Color(0, 102, 204)); // Azul para a aba selecionada
+        UIManager.put("TabbedPane.selectedForeground", Color.BLUE); // Cor do texto da aba selecionada
+        UIManager.put("TabbedPane.background", Color.WHITE); // Cor de fundo das abas não selecionadas
+        UIManager.put("TabbedPane.foreground", new Color(30, 30, 30)); // Letras bem escuras (cinza escuro)
+        UIManager.put("TabbedPane.font", new Font("Arial", Font.BOLD, 14)); // Fonte das abas
+    }
+
     private void inicializarPainéis() {
         painelMaquinas = new MaquinasPanel();
         painelManutencao = new ManutencaoPanel();
         painelFalhas = new FalhasPanel();
         painelTecnicos = new TecnicosPanel();
     }
+
+
 }
