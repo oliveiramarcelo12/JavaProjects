@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import com.example.controllers.RelatorioTecnicoController;
+import com.example.controllers.RelatorioCompletoController;
 import com.example.controllers.TecnicoController;
 import com.example.models.Tecnico;
 
@@ -78,10 +78,11 @@ public class TecnicosPanel extends JPanel {
         btnGerarRelatorio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RelatorioTecnicoController relatorioController = new RelatorioTecnicoController();
-                relatorioController.gerarRelatorioManutencao(); // Chama o método correto para gerar o relatório
+                RelatorioCompletoController relatorioController = new RelatorioCompletoController();
+                relatorioController.gerarRelatorioCompleto(); // Gera o relatório completo
             }
         });
+        
         
         btnDeletarTecnico.addActionListener(new ActionListener() {
             @Override

@@ -47,6 +47,18 @@
       "dataAquisicao": "2023-12-01",
       "detalhes": "Zeca",
       "id": "8cf9"
+    },
+    {
+      "id": "0079",
+      "tempoVidaEstimado": 20,
+      "codigo": "62TY",
+      "localizacao": "Pátio Superior",
+      "nome": "Torno CNC 1",
+      "fabricante": "Hass",
+      "manual": "Não",
+      "modelo": "Torno H1",
+      "dataAquisicao": "2023-11-01",
+      "detalhes": "Linha 3"
     }
   ],
   "historicoManutencao": [

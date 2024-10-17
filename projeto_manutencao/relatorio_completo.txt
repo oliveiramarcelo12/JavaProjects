@@ -1,0 +1,41 @@
+Relatório Completo do Sistema
+================================
+
+Máquinas
+-------------------------------
+ID	Código	Nome	Fabricante	Modelo	Data de Aquisição	Localização	Detalhes
+-----------------------------------------------------------------------------------
+2	M002	Torno CNC	Siemens	CNC 3500	2022-01-10	Linha 2	OperaÃƒÂ§ÃƒÂ£o em alta precisÃƒÂ£o
+f00e	C34	cnc	ddd	dddd	2024-10-11	sss	saax
+7be3	23	ddd	dsddd	sss	2024-10-11	wwww	ddd
+8cf9	45	ffff	ffff	sdsss	2023-12-01	cdd	Zeca
+
+Total de Máquinas: 4
+
+Manutenções
+-------------------------------
+ID	Data	Tipo	Peças Trocadas	Tempo de Parada	Técnico ID	Observações
+-----------------------------------------------------------------------------------
+1	2024-10-07	Preventiva	Correia	4 horas	JoÃ£o Silva	SubstituiÃ§Ã£o preventiva da correia.
+
+Total de Manutenções: 1
+Tempo Total de Parada: 4 horas
+
+Falhas
+-------------------------------
+ID	ID Máquina	Data	Problema	Prioridade	Operador
+---------------------------------------------------------------
+1	1	2024-09-20	Falha no motor	Baixa	Carlos Lima
+50c5	2	2024-10-16	gghhhhh	fffff	Diogo
+
+Total de Falhas: 2
+
+Técnicos
+-------------------------------
+ID	Nome	Especialidade	Disponibilidade
+----------------------------------------------
+1	Marcelo J	MecÃƒÆ’Ã‚Â¢nico	Tarde
+2	Zeca	Limpador	Diurno
+
+Total de Técnicos: 2
+

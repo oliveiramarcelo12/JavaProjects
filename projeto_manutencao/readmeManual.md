@@ -1,7 +1,7 @@
 # Manual do Projeto de Gerenciamento de Manutenção
 
 ## 1. Introdução
-Bem-vindo ao **Manual do Projeto de Gerenciamento de Manutenção**. Este documento tem como objetivo apresentar as funcionalidades da aplicação, que foi desenvolvida para facilitar o gerenciamento de máquinas, manutenções, falhas e técnicos. A seguir, você encontrará uma descrição detalhada de cada painel disponível no sistema.
+Bem-vindo ao **Manual do Projeto de Gerenciamento de Manutenção**. Este documento tem como objetivo apresentar as funcionalidades da aplicação, que foi desenvolvida para facilitar o gerenciamento de máquinas, manutenções, falhas e técnicos. A seguir, você encontrará uma descrição detalhada de cada painel disponível no sistema, além da nova funcionalidade de **geração de relatórios completos**.
 
 ## 2. Painéis
 
@@ -59,12 +59,27 @@ Bem-vindo ao **Manual do Projeto de Gerenciamento de Manutenção**. Este docume
       - **Disponibilidade**
   - **Botão Deletar**: 
     - Para remover um técnico da lista, selecione a linha correspondente e clique neste botão. Uma confirmação será solicitada para garantir que a ação é intencional.
-  - **Botão Gerar Relatório**: 
-    - Este botão gera um arquivo **.txt** contendo as informações de todos os técnicos cadastrados. É uma funcionalidade útil para manter registros ou para análises futuras.
+  - **Botão Gerar Relatório Completo**: 
+    - Este botão gera um arquivo **.txt** contendo as informações de todos os dados cadastrados. É uma funcionalidade útil para manter registros ou para análises futuras.
   - **Atualização de Dados**: 
     - Você pode atualizar as informações de um técnico já cadastrado da mesma forma que nos outros painéis, utilizando um **duplo clique** na linha desejada.
 
+### 2.5. Relatório Completo
+- **Descrição**: Esta nova funcionalidade permite gerar um relatório completo que inclui dados sobre **Máquinas**, **Manutenções**, **Falhas** e **Técnicos**.
+- **Funcionalidades**:
+  - **Botão Gerar Relatório Completo**:
+    - Ao clicar neste botão, um relatório detalhado será gerado e salvo como um arquivo **.txt**. O relatório inclui as seguintes informações:
+      - **Máquinas**: ID, Código, Nome, Fabricante, Modelo, Data de Aquisição, Localização e Detalhes.
+      - **Manutenções**: ID, Data, Tipo, Peças Trocadas, Tempo de Parada, Técnico ID e Observações.
+      - **Falhas**: ID, ID da Máquina, Data, Problema, Prioridade e Operador.
+      - **Técnicos**: ID, Nome, Especialidade e Disponibilidade.
+    - **Estatísticas** adicionais são incluídas no relatório:
+      - Número total de máquinas cadastradas.
+      - Número total de manutenções realizadas e o tempo total de parada.
+      - Número total de falhas registradas.
+      - Número total de técnicos cadastrados.
+
 ## 3. Conclusão
-Este manual apresenta uma visão geral das funcionalidades da aplicação de gerenciamento de manutenção. Acreditamos que, com este sistema, você poderá gerenciar as operações de maneira eficiente e prática. Para mais informações ou suporte técnico, não hesite em entrar em contato com a equipe de desenvolvimento. 
+Este manual apresenta uma visão geral das funcionalidades da aplicação de gerenciamento de manutenção, incluindo a geração de relatórios detalhados que abrangem todas as áreas do sistema, com estatísticas detalhadas para facilitar a análise. Acreditamos que, com este sistema, você poderá gerenciar as operações de maneira eficiente e prática. Para mais informações ou suporte técnico, não hesite em entrar em contato com a equipe de desenvolvimento.
 
 Esperamos que este manual seja útil para você!
