@@ -78,8 +78,8 @@ public class TecnicosPanel extends JPanel {
         btnGerarRelatorio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RelatorioTecnicoController relatorioTecnicos = new RelatorioTecnicoController();
-                relatorioTecnicos.gerarRelatorio(); // Chama o método para gerar o relatório
+                RelatorioTecnicoController relatorioController = new RelatorioTecnicoController();
+                relatorioController.gerarRelatorioManutencao(); // Chama o método correto para gerar o relatório
             }
         });
         

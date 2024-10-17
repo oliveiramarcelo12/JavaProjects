@@ -1,0 +1,12 @@
+Relatório de Manutenções
+=========================
+
+ID	Data		Tipo	Peças Trocadas	Tempo de Parada	Técnico ID	Observações
+-----------------------------------------------------------------------------------
+1	2024-10-07	Preventiva	Correia	4 horas	JoÃ£o Silva	SubstituiÃ§Ã£o preventiva da correia.
+
+
+Estatísticas:
+-------------
+Total de Manutenções: 1
+Tempo Total de Parada: 4 horas

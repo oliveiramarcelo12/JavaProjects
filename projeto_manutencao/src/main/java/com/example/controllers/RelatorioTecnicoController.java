@@ -4,34 +4,62 @@ import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import com.example.models.Tecnico;
+import com.example.models.Manutencao;
 
 public class RelatorioTecnicoController {
-    private TecnicoController tecnicoController;
+
+    private ManutencaoController manutencaoController;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public RelatorioTecnicoController() {
-        this.tecnicoController = new TecnicoController();
+        this.manutencaoController = new ManutencaoController();
     }
 
-    public void gerarRelatorio() {
-        List<Tecnico> tecnicos = tecnicoController.readTecnicos(); // Recupera a lista de técnicos
+    public void gerarRelatorioManutencao() {
+        String filePath = "relatorio_manutencoes.txt";
 
-        // Exemplo simples de geração de relatório em arquivo TXT
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("relatorio_tecnicos.txt"))) {
-            writer.write("Relatório de Técnicos\n");
-            writer.write("=====================\n");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 
-            for (Tecnico tecnico : tecnicos) {
-                writer.write("ID: " + tecnico.getId() + "\n");
-                writer.write("Nome: " + tecnico.getNome() + "\n");
-                writer.write("Especialidade: " + tecnico.getEspecialidade() + "\n");
-                writer.write("Disponibilidade: " + tecnico.getDisponibilidade() + "\n");
-                writer.write("---------------------\n");
+            // Cabeçalho do relatório
+            writer.write("Relatório de Manutenções\n");
+            writer.write("=========================\n\n");
+
+            // Cabeçalho da tabela
+            writer.write("ID\tData\t\tTipo\tPeças Trocadas\tTempo de Parada\tTécnico ID\tObservações\n");
+            writer.write("-----------------------------------------------------------------------------------\n");
+
+            List<Manutencao> manutencoes = manutencaoController.readManutencao();
+            int totalTempoParada = 0; // Para cálculo do total de tempo de parada
+
+            // Escrever os dados de cada manutenção
+            for (Manutencao manutencao : manutencoes) {
+                writer.write(
+                    manutencao.getId() + "\t" +
+                    manutencao.getData().format(DATE_FORMATTER) + "\t" +
+                    manutencao.getTipo() + "\t" +
+                    manutencao.getPecasTrocadas() + "\t" +
+                    manutencao.getTempoDeParada() + " horas\t" +
+                    manutencao.getTecnicoID() + "\t" +
+                    manutencao.getObservacoes() + "\n"
+                );
+
+                // Acumular tempo de parada
+                totalTempoParada += manutencao.getTempoDeParada();
             }
-            JOptionPane.showMessageDialog(null, "Relatório gerado com sucesso!");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+
+            // Estatísticas adicionais
+            writer.write("\n\nEstatísticas:\n");
+            writer.write("-------------\n");
+            writer.write("Total de Manutenções: " + manutencoes.size() + "\n");
+            writer.write("Tempo Total de Parada: " + totalTempoParada + " horas\n");
+
+            // Informar que o relatório foi gerado
+            JOptionPane.showMessageDialog(null, "Relatório gerado com sucesso!\nArquivo salvo em: " + filePath);
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
