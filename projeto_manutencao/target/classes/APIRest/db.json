@@ -45,7 +45,7 @@
       "manual": "bbb",
       "modelo": "sdsss",
       "dataAquisicao": "2023-12-01",
-      "detalhes": "wswese",
+      "detalhes": "Zeca",
       "id": "8cf9"
     }
   ],
@@ -63,7 +63,7 @@
   ],
   "falhas": [
     {
-      "data": "2024-09-28",
+      "data": "2024-09-20",
       "prioridade": "Baixa",
       "maquinaId": 1,
       "problema": "Falha no motor",
