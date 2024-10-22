@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/java" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="exercicio5_agenda_telefonica" />
+    <orderEntry type="module" module-name="poo_exercicio1_gestao_cursos" />
+    <orderEntry type="module" module-name="io_exercicio4_csv" />
+    <orderEntry type="module" module-name="colecoes_exemplo" />
+    <orderEntry type="module" module-name="gui_exemplo" />
+    <orderEntry type="module" module-name="projeto_manutencao" />
+    <orderEntry type="module" module-name="main" />
+    <orderEntry type="module" module-name="gui_exercicio1_calculadora_aba" />
+    <orderEntry type="module" module-name="io_exercicio3_bd" />
+    <orderEntry type="module" module-name="io_exercicio2_crud_api" />
+    <orderEntry type="module" module-name="io_exercicio1_arquivo_txt" />
+    <orderEntry type="module" module-name="io_exemplo" />
+    <orderEntry type="module" module-name="demo" />
+    <orderEntry type="module" module-name="colecao_exercicio1_venda_produto" />
+  </component>
+</module>
